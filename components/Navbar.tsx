@@ -1,94 +1,100 @@
 import React, { useState, useEffect } from 'react';
 import { NAV_LINKS } from '../constants';
-import { Menu, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, Terminal } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [time, setTime] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
+    
+    const updateTime = () => {
+      const now = new Date();
+      setTime(now.toLocaleTimeString('en-US', { hour12: false }));
+    };
+    
+    const timer = setInterval(updateTime, 1000);
+    updateTime();
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearInterval(timer);
+    };
   }, []);
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 flex justify-center transition-all duration-500 ${
-        isScrolled ? 'pt-4' : 'pt-6'
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 border-b ${
+        isScrolled 
+          ? 'bg-cyber-black/90 border-cyber-green/20 backdrop-blur-sm py-2' 
+          : 'bg-transparent border-transparent py-4'
       }`}
     >
-      <div
-        className={`
-          relative flex items-center justify-between px-6 transition-all duration-500
-          ${isScrolled 
-            ? 'w-[90%] md:w-[70%] lg:w-[50%] py-3 bg-deep-space/80 backdrop-blur-md rounded-full border border-white/10 shadow-[0_0_20px_rgba(0,243,255,0.15)]' 
-            : 'w-full max-w-7xl py-4 bg-transparent'
-          }
-        `}
-      >
-        {/* Logo */}
-        <a href="#" className="text-2xl font-bold font-mono tracking-tighter group flex items-center gap-1">
-          <span className="w-3 h-3 rounded-full bg-neon-blue animate-pulse mr-2"></span>
-          <span className="text-white group-hover:text-neon-blue transition-colors">Naveen</span>
-        </a>
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        
+        {/* Left Status Block */}
+        <div className="flex items-center gap-4">
+          <a href="#" className="flex items-center gap-2 group">
+            <Terminal size={20} className="text-cyber-green" />
+            <span className="font-bold text-xl tracking-tighter group-hover:text-cyber-green transition-colors">
+              NK_SYSTEM<span className="animate-blink">_</span>
+            </span>
+          </a>
+          <div className="hidden md:flex text-xs text-gray-500 border-l border-gray-800 pl-4 gap-4 font-mono">
+            <span>IP: 127.0.0.1</span>
+            <span>MEM: 64TB</span>
+          </div>
+        </div>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-1">
-          {NAV_LINKS.map((link) => (
+          {NAV_LINKS.map((link, index) => (
             <a
               key={link.name}
               href={link.href}
-              className="relative px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors rounded-full group overflow-hidden"
+              className="relative px-4 py-2 text-xs font-medium text-gray-400 hover:text-cyber-green transition-colors group uppercase tracking-widest"
             >
-              <span className="relative z-10">{link.name}</span>
-              <span className="absolute inset-0 bg-white/5 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-full"></span>
+              <span className="text-cyber-green/50 mr-1">0{index + 1}.</span>
+              {link.name}
+              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-cyber-green group-hover:w-full transition-all duration-300"></span>
             </a>
           ))}
         </div>
 
-        {/* Call to Action (Desktop) */}
-        <a 
-          href="#contact"
-          className={`hidden md:block px-5 py-2 text-sm font-bold text-black bg-neon-blue rounded-full hover:bg-white transition-colors duration-300 hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] ${!isScrolled && 'hidden'}`}
-        >
-          Hire Me
-        </a>
+        {/* Right Status Block */}
+        <div className="hidden md:flex items-center gap-4 text-xs font-mono">
+          <span className="text-cyber-cyan">{time}</span>
+          <span className="w-2 h-2 bg-cyber-green rounded-full animate-pulse"></span>
+        </div>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-white p-1 hover:text-neon-blue transition-colors"
+          className="md:hidden text-cyber-green hover:text-white transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* Mobile Nav Overlay */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: -20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -20 }}
-            className="absolute top-24 left-4 right-4 p-6 rounded-2xl glass-card md:hidden flex flex-col space-y-4 z-40 border border-white/10 bg-deep-space/95"
-          >
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-lg font-medium text-gray-200 hover:text-neon-blue block p-3 rounded-lg hover:bg-white/5 transition-colors border-b border-white/5 last:border-none"
-              >
-                {link.name}
-              </a>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="absolute top-full left-0 w-full bg-cyber-black border-b border-cyber-green/30 p-4 flex flex-col gap-2 md:hidden">
+          {NAV_LINKS.map((link, index) => (
+            <a
+              key={link.name}
+              href={link.href}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="p-3 border border-gray-800 hover:border-cyber-green text-gray-300 hover:text-cyber-green transition-all uppercase text-sm tracking-wider bg-white/5"
+            >
+              <span className="text-cyber-green mr-2">0{index + 1}.</span> {link.name}
+            </a>
+          ))}
+        </div>
+      )}
     </nav>
   );
 };

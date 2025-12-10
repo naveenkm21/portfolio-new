@@ -3,51 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Naveen Kumar | Full Stack Innovator</title>
+    <title>SYSTEM.ROOT | Naveen Kumar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
-              sans: ['Outfit', 'sans-serif'],
-              mono: ['Space Grotesk', 'monospace'],
+              sans: ['Space Grotesk', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
             },
             colors: {
-              'neon-blue': '#00f3ff',
-              'neon-purple': '#bc13fe',
-              'deep-space': '#050510',
-              'glass-border': 'rgba(255, 255, 255, 0.08)',
-              'glass-bg': 'rgba(255, 255, 255, 0.03)',
+              'cyber-green': '#00ff41',
+              'cyber-cyan': '#00f3ff',
+              'cyber-red': '#ff003c',
+              'cyber-black': '#020202',
+              'cyber-gray': '#111111',
+              'terminal-dim': 'rgba(0, 255, 65, 0.1)',
             },
             animation: {
               'spin-slow': 'spin 20s linear infinite',
-              'pulse-fast': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'float': 'float 6s ease-in-out infinite',
               'glitch': 'glitch 1s linear infinite',
-              'shimmer': 'skeleton-shimmer 3s infinite linear',
-              'scan': 'scan-line 2.5s linear infinite',
+              'scan': 'scan 4s linear infinite',
+              'blink': 'blink 1s step-end infinite',
+              'type': 'type 3s steps(40, end)',
             },
             keyframes: {
-              float: {
-                '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-20px)' },
-              },
               glitch: {
                 '2%, 64%': { transform: 'translate(2px,0) skew(0deg)' },
                 '4%, 60%': { transform: 'translate(-2px,0) skew(0deg)' },
                 '62%': { transform: 'translate(0,0) skew(5deg)' },
               },
-              'skeleton-shimmer': {
-                '0%': { backgroundPosition: '200% 0' },
-                '100%': { backgroundPosition: '-200% 0' }
+              scan: {
+                '0%': { backgroundPosition: '0 -100vh' },
+                '100%': { backgroundPosition: '0 100vh' }
               },
-              'scan-line': {
-                '0%': { top: '-10%' },
-                '100%': { top: '110%' }
+              blink: {
+                '0%, 100%': { opacity: '1' },
+                '50%': { opacity: '0' }
               }
             }
           }
@@ -55,160 +51,164 @@
       }
     </script>
     <style>
+      :root {
+        --primary: #00ff41;
+        --secondary: #00f3ff;
+        --bg: #050505;
+      }
+      
       body {
-        background-color: #050510;
-        color: #ffffff;
+        background-color: var(--bg);
+        color: #e0e0e0;
+        font-family: 'JetBrains Mono', monospace;
         overflow-x: hidden;
-        cursor: none; /* Custom cursor control */
-        transition: background-color 0.5s ease;
-      }
-      
-      /* Smooth transitions for elements entering/exiting skeleton mode */
-      h1, h2, h3, h4, h5, h6, p, span, a, li, button, .glass-card, nav {
-        transition: color 0.5s ease, background-color 0.5s ease, border-color 0.5s ease, backdrop-filter 0.5s ease, opacity 0.5s ease, box-shadow 0.5s ease;
-      }
-      
-      /* Custom Cursor Styles */
-      .cursor-dot,
-      .cursor-outline {
-        position: fixed;
-        top: 0;
-        left: 0;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        z-index: 9999;
-        pointer-events: none;
-      }
-      .cursor-dot {
-        width: 8px;
-        height: 8px;
-        background-color: #00f3ff;
-      }
-      .cursor-outline {
-        width: 40px;
-        height: 40px;
-        border: 1px solid rgba(0, 243, 255, 0.5);
-        transition: width 0.2s, height 0.2s, background-color 0.2s;
-      }
-      body:hover .cursor-outline {
-        background-color: rgba(0, 243, 255, 0.05);
+        cursor: none;
       }
 
-      /* Noise Texture */
-      .bg-noise {
+      /* CRT Scanline Effect */
+      .crt::before {
+        content: " ";
+        display: block;
         position: fixed;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
+        bottom: 0;
+        right: 0;
+        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
         z-index: 50;
-        opacity: 0.03;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        background-size: 100% 2px, 3px 100%;
+        pointer-events: none;
       }
 
-      /* Custom scrollbar */
+      .crt::after {
+        content: " ";
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(18, 16, 16, 0.02);
+        opacity: 0;
+        z-index: 50;
+        pointer-events: none;
+        animation: flicker 0.15s infinite;
+      }
+
+      @keyframes flicker {
+        0% { opacity: 0.01; }
+        50% { opacity: 0.03; }
+        100% { opacity: 0.01; }
+      }
+
+      /* Selection */
+      ::selection {
+        background: var(--primary);
+        color: #000;
+      }
+
+      /* Custom Scrollbar */
       ::-webkit-scrollbar {
-        width: 6px;
+        width: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #050510;
+        background: #000;
+        border-left: 1px solid #222;
       }
       ::-webkit-scrollbar-thumb {
-        background: #333;
-        border-radius: 3px;
+        background: #222;
+        border: 1px solid var(--primary);
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #00f3ff;
+        background: var(--primary);
       }
       
-      .glass-card {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      /* Cursor */
+      .cursor-dot {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 8px;
+        height: 8px;
+        background: var(--primary);
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 100;
       }
-      
-      .text-gradient {
-        background: linear-gradient(to right, #00f3ff, #bc13fe);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+      .cursor-crosshair {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 40px;
+        height: 40px;
+        border: 1px solid transparent;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
-      
-      .text-stroke {
-        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
-        color: transparent;
+      .cursor-crosshair::before, .cursor-crosshair::after {
+        content: '';
+        position: absolute;
+        background: var(--primary);
       }
+      .cursor-crosshair::before { width: 100%; height: 1px; }
+      .cursor-crosshair::after { width: 1px; height: 100%; }
 
-      /* --- SKELETON MODE STYLES --- */
-      body.skeleton-active .bg-noise,
-      body.skeleton-active .cursor-dot,
-      body.skeleton-active .cursor-outline,
-      body.skeleton-active .skeleton-ignore {
-        visibility: visible;
+      /* Debug/Skeleton Mode */
+      body.skeleton-active {
+        background: #000 !important;
       }
-
-      /* Hide images and specific decorations */
-      body.skeleton-active img,
-      body.skeleton-active svg:not(.skeleton-ignore) {
-        opacity: 0 !important;
-        transition: opacity 0.5s ease;
-      }
-
-      /* Transform text content into shimmering bars */
-      body.skeleton-active h1,
-      body.skeleton-active h2,
-      body.skeleton-active h3,
-      body.skeleton-active h4,
-      body.skeleton-active h5,
-      body.skeleton-active h6,
-      body.skeleton-active p,
-      body.skeleton-active span,
-      body.skeleton-active a,
-      body.skeleton-active li,
-      body.skeleton-active button:not(.skeleton-ignore) {
-        color: transparent !important;
-        -webkit-text-fill-color: transparent !important;
-        background-image: linear-gradient(
-          90deg,
-          rgba(255, 255, 255, 0.05) 25%,
-          rgba(255, 255, 255, 0.15) 50%,
-          rgba(255, 255, 255, 0.05) 75%
-        ) !important;
-        background-size: 200% 100% !important;
-        animation: skeleton-shimmer 3s infinite linear !important;
-        border-radius: 4px !important;
+      body.skeleton-active * {
+        border: 1px solid rgba(0, 255, 65, 0.3) !important;
+        background: transparent !important;
+        color: rgba(0, 255, 65, 0.8) !important;
         box-shadow: none !important;
-        text-shadow: none !important;
-        border: none !important;
-        pointer-events: none !important;
-        user-select: none !important;
-      }
-      
-      /* Wireframe effect for containers */
-      body.skeleton-active .glass-card {
-        background: rgba(0, 243, 255, 0.02) !important;
-        border: 1px solid rgba(0, 243, 255, 0.2) !important;
+        border-radius: 0 !important;
+        animation: none !important;
         backdrop-filter: none !important;
-        box-shadow: 0 0 15px rgba(0, 243, 255, 0.05) !important;
+        text-shadow: none !important;
       }
-
-      body.skeleton-active nav {
-        background: #050510 !important;
-        border-bottom: 1px solid rgba(0, 243, 255, 0.2) !important;
+      body.skeleton-active img, 
+      body.skeleton-active .crt::before {
+        display: none !important;
+      }
+      body.skeleton-active .skeleton-hide {
+        display: none !important;
       }
       
-      body.skeleton-active .text-stroke {
-        -webkit-text-stroke: 0px !important;
+      /* Utility Classes for Terminal Look */
+      .terminal-card {
+        background: rgba(5, 5, 5, 0.9);
+        border: 1px solid #222;
+        position: relative;
+      }
+      .terminal-card:hover {
+        border-color: var(--primary);
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.1);
+      }
+      .corner-brackets {
+        position: relative;
+      }
+      .corner-brackets::before, .corner-brackets::after {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border: 1px solid var(--primary);
+        transition: all 0.3s ease;
+      }
+      .corner-brackets::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+      .corner-brackets::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+      
+      .terminal-card:hover .corner-brackets::before,
+      .terminal-card:hover .corner-brackets::after {
+        width: 100%;
+        height: 100%;
       }
 
-      /* Ensure layout doesn't collapse */
-      body.skeleton-active *:empty {
-         min-height: 1em;
-         min-width: 20px;
-         display: inline-block;
-      }
     </style>
   <script type="importmap">
 {
@@ -223,7 +223,7 @@
 </script>
 <link rel="stylesheet" href="/index.css">
 </head>
-  <body>
+  <body class="crt">
     <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
